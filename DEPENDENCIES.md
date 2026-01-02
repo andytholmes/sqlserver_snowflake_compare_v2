@@ -33,10 +33,20 @@
 
 ### Configuration
 
+#### dynaconf
+- **Version**: >=3.2.0, <4.0.0
+- **Purpose**: Advanced configuration management with multiple sources, environment variable support, and validation
+- **Features**:
+  - Multiple config file formats (JSON, YAML, TOML, Python)
+  - Environment variable overrides
+  - Built-in validation
+  - Dot-notation access
+  - .env file support
+- **Documentation**: https://www.dynaconf.com/
+
 #### pyyaml
 - **Version**: >=6.0, <7.0
-- **Purpose**: YAML configuration file parsing
-- **Alternative**: `configparser` (built-in, but YAML is more flexible for complex configs)
+- **Purpose**: YAML configuration file parsing (used by dynaconf)
 - **Documentation**: https://pyyaml.org/
 
 ## Standard Library Modules (No Installation Required)

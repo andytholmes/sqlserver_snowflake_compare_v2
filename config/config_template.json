@@ -1,0 +1,78 @@
+{
+  "version": "1.0",
+  "description": "Configuration template for SQL Server to Snowflake Query Performance Comparison Tool",
+  
+  "connections": {
+    "sql_server_test_run": {
+      "server": "localhost",
+      "database": "TestRunDB",
+      "port": 1433,
+      "driver": "ODBC Driver 17 for SQL Server",
+      "trusted_connection": false,
+      "timeout": 30,
+      "note": "Connection to SQL Server database that stores test metadata, configurations, and results"
+    },
+    "sql_server_test_target": {
+      "server": "localhost",
+      "database": "TestTargetDB",
+      "port": 1433,
+      "driver": "ODBC Driver 17 for SQL Server",
+      "trusted_connection": false,
+      "timeout": 30,
+      "note": "Connection to the actual SQL Server database being tested"
+    },
+    "snowflake": {
+      "account": "your_account_identifier",
+      "warehouse": "COMPUTE_WH",
+      "database": "TEST_DB",
+      "schema": "PUBLIC",
+      "role": "ACCOUNTADMIN",
+      "authentication_type": "password",
+      "timeout": 30,
+      "note": "Snowflake connection - authentication credentials should be in .env file"
+    }
+  },
+  
+  "execution": {
+    "parallel_workers": 10,
+    "repeat_count": 5,
+    "query_timeout_seconds": 300,
+    "max_retries": 3,
+    "retry_delay_seconds": 5
+  },
+  
+  "ui": {
+    "framework": "tkinter",
+    "window_width": 1200,
+    "window_height": 800,
+    "theme": "default",
+    "auto_refresh_interval_seconds": 5,
+    "show_progress_detailed": true
+  },
+  
+  "logging": {
+    "level": "INFO",
+    "file_enabled": true,
+    "console_enabled": true,
+    "log_directory": "logs",
+    "log_filename": "sqlserver_snowflake_compare.log",
+    "max_file_size_mb": 10,
+    "backup_count": 5,
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "date_format": "%Y-%m-%d %H:%M:%S"
+  },
+  
+  "translation": {
+    "auto_validate": true,
+    "validation_timeout_seconds": 60,
+    "save_translations": true
+  },
+  
+  "analysis": {
+    "calculate_statistics": true,
+    "detect_outliers": true,
+    "outlier_threshold_std_dev": 2.0,
+    "export_format": "csv"
+  }
+}
+
