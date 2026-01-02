@@ -1,0 +1,9 @@
+# Development dependencies
+# Install with: pip install -r requirements-dev.txt
+# This includes all core dependencies plus development tools
+
+-r requirements.txt
+
+# Additional development tools
+ipython>=8.0.0,<9.0.0  # Enhanced interactive shell for debugging
+
