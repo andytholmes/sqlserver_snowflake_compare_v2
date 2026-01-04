@@ -1,0 +1,43 @@
+[flake8]
+# Maximum line length (matches black configuration)
+max-line-length = 100
+
+# Exclude directories
+exclude =
+    .git,
+    __pycache__,
+    .venv,
+    venv,
+    build,
+    dist,
+    *.egg-info,
+    .eggs,
+    .pytest_cache,
+    .coverage,
+    htmlcov,
+    .mypy_cache,
+    .tox
+
+# Ignore specific error codes
+# E203: whitespace before ':' (conflicts with black)
+# W503: line break before binary operator (conflicts with black)
+# E501: line too long (handled by black)
+# D200: one-line docstring should fit on one line (style preference)
+# D400: first line should end with a period (style preference)
+# D401: first line should be in imperative mood (style preference)
+ignore = E203, W503, E501, D200, D400, D401
+
+# Maximum complexity
+max-complexity = 10
+
+# Per-file ignores
+per-file-ignores =
+    __init__.py:F401
+    tests/*:D
+    */tests/*:D
+
+# Show source
+show-source = True
+
+# Statistics
+statistics = True

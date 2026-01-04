@@ -1,4 +1,3 @@
 """
 Comparison and analysis logic
 """
-

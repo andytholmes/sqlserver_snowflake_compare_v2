@@ -2,10 +2,11 @@
 Shared test fixtures and configuration for pytest.
 """
 
-import pytest
 import sys
 from pathlib import Path
-from unittest.mock import Mock, MagicMock
+from unittest.mock import MagicMock
+
+import pytest
 
 # Add src to path for imports
 project_root = Path(__file__).parent.parent
@@ -18,35 +19,22 @@ def sample_config():
     return {
         "version": "1.0",
         "connections": {
-            "sql_server_test_run": {
-                "server": "localhost",
-                "database": "TestRunDB",
-                "port": 1433
-            },
+            "sql_server_test_run": {"server": "localhost", "database": "TestRunDB", "port": 1433},
             "sql_server_test_target": {
                 "server": "localhost",
                 "database": "TestTargetDB",
-                "port": 1433
+                "port": 1433,
             },
             "snowflake": {
                 "account": "test_account",
                 "warehouse": "TEST_WH",
                 "database": "TEST_DB",
-                "schema": "PUBLIC"
-            }
+                "schema": "PUBLIC",
+            },
         },
-        "execution": {
-            "parallel_workers": 5,
-            "repeat_count": 3
-        },
-        "ui": {
-            "framework": "tkinter"
-        },
-        "logging": {
-            "level": "DEBUG",
-            "file_enabled": False,
-            "console_enabled": True
-        }
+        "execution": {"parallel_workers": 5, "repeat_count": 3},
+        "ui": {"framework": "tkinter"},
+        "logging": {"level": "DEBUG", "file_enabled": False, "console_enabled": True},
     }
 
 
@@ -83,10 +71,4 @@ def sample_snowflake_query():
 @pytest.fixture
 def sample_execution_result():
     """Sample query execution result for testing."""
-    return {
-        "execution_time_ms": 150,
-        "row_count": 10,
-        "status": "success",
-        "error_message": None
-    }
-
+    return {"execution_time_ms": 150, "row_count": 10, "status": "success", "error_message": None}
