@@ -41,7 +41,7 @@ dev = [
 ]
 
 [project.scripts]
-sqlserver-snowflake-compare = "src.main:main"
+sqlserver-snowflake-compare = "main:main"
 
 [tool.setuptools]
 packages = ["src", "src.database", "src.translation", "src.execution", "src.analysis", "src.ui", "src.utils"]
