@@ -142,42 +142,55 @@
 3. **Implementation** - Implement code to make tests pass
 4. **Refactoring** - Refactor code while keeping tests green
 
-### 1. **Database Schema Implementation and Verification**
+### 1. **Database Schema Validation and Verification**
 
    **1.1 Test Design & Writing** (Review Required)
    - Create test file `tests/database/test_schema.py`:
-     - Test `SchemaManager.create_schema()` with valid schema file path
-     - Test `create_schema()` with invalid file path (should raise SchemaError)
-     - Test `create_schema()` with malformed SQL (should handle gracefully)
-     - Test schema creation execution order (tables created in correct sequence)
-     - Test `table_exists()` for all required tables (ConfigTable, QueryRepository, TestRuns, TestResults, ComparisonResults)
-     - Test `get_table_info()` returns correct column information
-     - Test schema validation method (verify all tables exist after creation)
-     - Integration test: Execute full schema creation and verify all tables
-     - Integration test: Verify foreign key constraints are created
-     - Integration test: Verify indexes are created
+     - **Priority: Schema Validation (Required)**
+       - Test `table_exists()` for all required tables (ConfigTable, QueryRepository, TestRuns, TestResults, ComparisonResults)
+       - Test `table_exists()` returns True when table exists
+       - Test `table_exists()` returns False when table doesn't exist
+       - Test `table_exists()` raises SchemaError on database exceptions
+       - Test `get_table_info()` returns correct column information
+       - Test `get_table_info()` handles nonexistent tables gracefully
+       - Test schema validation method (verify all required tables exist)
+       - Integration test: Verify schema structure matches expected tables
+     - **Optional: Schema Creation (Nice-to-Have)**
+       - Test `SchemaManager.create_schema()` with valid schema file path
+       - Test `create_schema()` with invalid file path (should raise SchemaError)
+       - Test `create_schema()` with malformed SQL (should handle gracefully)
+       - Test schema creation execution order (tables created in correct sequence)
+       - Integration test: Execute full schema creation and verify all tables
+       - Integration test: Verify foreign key constraints are created
+       - Integration test: Verify indexes are created
    - Create test fixtures:
      - Mock SQL Server connection for unit tests
      - Test database setup/teardown for integration tests
-     - Sample schema SQL files for testing
+     - Sample schema SQL files for testing (if implementing create_schema)
    - **Review tests before proceeding to implementation**
 
    **1.2 Implementation** (After Test Review)
-   - Implement `SchemaManager.create_schema()`:
-     - Read and execute SQL schema scripts from `scripts/schema/` directory
-     - Execute scripts in correct order (00, 01, 02, etc.)
-     - Handle SQL execution errors gracefully
-     - Log schema creation progress
-   - Implement schema validation:
-     - Verify all required tables exist
-     - Verify table structure matches expected schema
-   - Add schema version tracking (optional but recommended)
-   - Make all tests pass
+   - **Priority: Schema Validation (Required)**
+     - Ensure `table_exists()` is fully implemented and tested ✅ (Already done)
+     - Ensure `get_table_info()` is fully implemented and tested ✅ (Already done)
+     - Implement `validate_schema()` method:
+       - Check all required tables exist
+       - Optionally verify table structure matches expected schema
+       - Return validation result with details of missing tables
+       - Raise SchemaError if critical tables are missing
+   - **Optional: Schema Creation (Nice-to-Have, Can Skip)**
+     - Implement `SchemaManager.create_schema()`:
+       - Read and execute SQL schema scripts from `scripts/schema/` directory
+       - Execute scripts in correct order (00, 01, 02, etc.)
+       - Handle SQL execution errors gracefully
+       - Log schema creation progress
+     - **Note**: Schema can be created manually via SQL scripts, so this is optional
+   - Make all priority tests pass
 
    **1.3 Refactoring**
    - Review code for improvements
-   - Optimize SQL script execution
    - Improve error messages and logging
+   - Optimize schema validation queries
 
 ### 2. **Connection Management Enhancement**
 
@@ -512,10 +525,16 @@
 
 ## Phase 1 Progress Status
 
-### Step 1: Database Schema Implementation and Verification
-- ⏳ **1.1 Test Design & Writing** - Not started (Review required before implementation)
-- ⏳ **1.2 Implementation** - Not started (Waiting for test review)
+### Step 1: Database Schema Validation and Verification
+- ✅ **1.1 Test Design & Writing** - Completed (Tests written, includes both required and optional tests)
+- ⏳ **1.2 Implementation** - In progress:
+  - ✅ `table_exists()` - Already implemented
+  - ✅ `get_table_info()` - Already implemented  
+  - ⏳ `validate_schema()` - Not started (Required)
+  - ⏳ `create_schema()` - Not started (Optional - can skip if manual creation is acceptable)
 - ⏳ **1.3 Refactoring** - Not started
+
+**Note**: Schema creation (`create_schema()`) is marked as optional since schema can be created manually via SQL scripts. Schema validation (`validate_schema()`) is required for application startup checks.
 
 ### Step 2: Connection Management Enhancement
 - ⏳ **2.1 Test Design & Writing** - Not started (Review required before implementation)
@@ -566,3 +585,7 @@
 - Tests serve as living documentation
 - Implementation is focused on making tests pass
 - Code quality is maintained through test coverage
+
+**Schema Management Rationale**: 
+- **Schema Validation** (`table_exists()`, `get_table_info()`, `validate_schema()`) is **required** - The application needs to verify schema exists before operations and provide user feedback.
+- **Schema Creation** (`create_schema()`) is **optional** - Schema can be created manually via SQL scripts (`scripts/schema/`), so programmatic creation is a convenience feature but not critical. Tests for `create_schema()` are included but can be skipped if manual creation is acceptable.
